@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
@@ -22,25 +23,25 @@
 			<div class="panel panel-default" style="width: 600px;margin: 0 auto;">
 				<div class="panel-heading text-center" style="font-size: 24px;">账号注册</div>
 				<div class="panel-body">
-					<form class="form-horizontal" id="registerForm">
+					<form:form class="form-horizontal" id="registerForm" commandName="user">
 						<div class="form-group">
 							<label for="cardId" class="col-md-3 control-label">身份证号：</label>
 							<div class="col-md-9">
-								<input type="text" class="form-control" name="cardId" id="cardId" value="" />
+								<form:input  path="cardId" cssClass="form-control"  />
 								<div class="errorMsg"></div>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="username" class="col-md-3 control-label">用户名：</label>
 							<div class="col-md-9">
-								<input type="text" class="form-control" name="username" id="username" value="" />
+								<form:input  path="name" cssClass="form-control"  />
 								<div class="errorMsg"></div>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="password" class="col-md-3 control-label">密码：</label>
 							<div class="col-md-9">
-								<input type="password" class="form-control" name="passwd" id="passwd" value="" />
+								<form:password  path="password" cssClass="form-control" />
 								<div class="errorMsg"></div>
 							</div>
 						</div>
@@ -57,7 +58,7 @@
 								<a href="" onclick="goback()" class="btn btn-primary btn-sm">返回</a>
 							</div>
 						</div>
-					</form>
+					</form:form>
 				</div>
 			</div>
 		</div>
@@ -69,12 +70,23 @@
 			jqueryValid();
 			// 给input表单设置焦点
 			$('input')[0].focus();
+			$('input[type=submit]').click(function(){
+					var $input = $('input');
+					$input.each(function(){
+						console.log($(this));
+						});
+				});
 		});
 
 		function goback() {
 			window.history.back(-1);
 		}
-
+		$.validator.setDefaults({
+		    submitHandler: function() {
+		      alert("提交事件!");
+// 		      $('#registerForm').su
+		    }
+		});
 		function jqueryValid() {
 			$('#registerForm').validate({
 				rules: {
@@ -89,7 +101,7 @@
 							type: "post", //数据发送方式
 							dataType: "json", //接受数据格式   
 							data: { //要传递的数据
-								cardId: $("#cardId").val()
+								'cardId':$("#cardId").val()
 							},
 							dataFilter: function(data, type) {
 								//判断控制器返回的内容
@@ -102,13 +114,13 @@
 							}
 						}
 					},
-					username: {
+					name: {
 						required: true,
 						//codeChar: true,
 						minlength: 3,
 						maxlength: 25
 					},
-					passwd: {
+					password: {
 						required: true,
 						//passChar: true,
 						minlength: 6
@@ -117,7 +129,7 @@
 						required: true,
 						//passChar: true,
 						minlength: 6,
-						equalTo: "#passwd"
+						equalTo: "#password"
 					}
 				},
 				// 自定义的提示语句
@@ -128,12 +140,12 @@
 						minlength: "身份证号长度为18",
 						maxlength: "身份证号长度为18"
 					},
-					username: {
+					name: {
 						required: "请输入用户名",
 						minlength: "用户名最少3个字符",
 						maxlength: "用户名长度不能超过25"
 					},
-					passwd: {
+					password: {
 						required: "请输入密码",
 						minlength: "密码最少6位"
 					},
@@ -146,8 +158,7 @@
 				errorPlacement:function(error, element){
 					console.log($(element));
 					$(element).next().append( error );
-				},
-				debug:true
+				}
 			});
 		}
 	</script>

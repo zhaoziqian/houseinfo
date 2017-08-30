@@ -1,6 +1,10 @@
 package com.zhaoziqian.houseinfo.controller;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,6 +43,13 @@ public class SystemController {
 		return "register";
 	}
 	
+	@RequestMapping(value="register",method=RequestMethod.POST)
+	public String register(Users user,ModelMap map){
+		map.put("user", user);
+		System.out.println(user);
+		return "register";
+	}
+	
 	/**
 	 * 
 	* @Title: validCardId 
@@ -48,15 +59,19 @@ public class SystemController {
 	* @return Object    返回类型 
 	* @throws
 	 */
-	@RequestMapping(value="cardId.valid",method=RequestMethod.POST)
+	@RequestMapping(value="cardId.valid",produces="application/json")
 	@ResponseBody
-	public Object validCardId(String cardId){
+	public Object validCardId(String cardId,HttpServletRequest request){
 		System.out.println(cardId);
 		Users user = registerAndLogin.findUserById(cardId); 
+		String id = (String) request.getAttribute("cardId");
+		System.out.println("ceshi"+id);
+		Map<String, Integer> result = new HashMap<>();
+		result.put("valid", 1);
 		if(user != null){
-			return false;
+			result.put("valid", 0);
 		}
-		return true;
+		return result;
 	}
 	
 	
