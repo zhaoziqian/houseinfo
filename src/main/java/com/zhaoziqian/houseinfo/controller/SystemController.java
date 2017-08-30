@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zhaoziqian.houseinfo.pojo.Users;
 import com.zhaoziqian.houseinfo.service.RegisterAndLogin;
@@ -32,6 +33,31 @@ public class SystemController {
 		return "login";
 	}
 	
+	@RequestMapping(value="register",method=RequestMethod.GET)
+	public String register(ModelMap map){
+		map.put("user", new Users());
+		return "register";
+	}
+	
+	/**
+	 * 
+	* @Title: validCardId 
+	* @Description: 验证该身份证号是否可以被注册
+	* @param @param cardId
+	* @param @return    设定文件 
+	* @return Object    返回类型 
+	* @throws
+	 */
+	@RequestMapping(value="cardId.valid",method=RequestMethod.POST)
+	@ResponseBody
+	public Object validCardId(String cardId){
+		System.out.println(cardId);
+		Users user = registerAndLogin.findUserById(cardId); 
+		if(user != null){
+			return false;
+		}
+		return true;
+	}
 	
 	
 	@RequestMapping(value="test",method=RequestMethod.GET)
