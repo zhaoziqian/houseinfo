@@ -13,7 +13,7 @@
 
 	<!-- 配置生成别名的路径 -->
 	<typeAliases>
-		<package name="com.zhaoziqian.hm.mapper" />
+		<package name="com.zhaoziqian.houseinfo.pojo" />
 	</typeAliases>
 
 </configuration>

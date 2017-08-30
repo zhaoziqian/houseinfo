@@ -25,4 +25,8 @@
 	<!-- 导入spring-mybatis -->
 	<import resource="classpath:spring/spring-mybatis.xml" />
 	
+	<!-- 启动注解扫描 -->
+	<mvc:annotation-driven></mvc:annotation-driven>
+	
+	
 </beans>
