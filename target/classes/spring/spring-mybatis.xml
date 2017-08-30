@@ -15,7 +15,7 @@
 		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-	<context:property-placeholder location="classpath:config.properties"/>
+<!-- 	<context:property-placeholder location="classpath:config.properties"/> -->
 
 	<!-- 配置数据源 -->
 	<bean id="dataSource" class="org.apache.ibatis.datasource.pooled.PooledDataSource">

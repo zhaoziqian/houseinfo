@@ -14,11 +14,14 @@
 		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd
 		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
-
+	
+	<mvc:default-servlet-handler/>
+	<!-- Controller包(自动注入) -->
+    <context:component-scan base-package="com.zhaoziqian.houseinfo.controller"/>
 	<!-- 配置注解需要扫描的包 -->
-	<context:component-scan base-package="com.zhaoziqian.houseinfo">
-		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-	</context:component-scan>
+<!-- 	<context:component-scan base-package="com.zhaoziqian.houseinfo"> -->
+<!-- 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/> -->
+<!-- 	</context:component-scan> -->
 	
 	<!-- 静态资源配置 -->
     <mvc:resources mapping="/resources/**" location="/resources/"/>
