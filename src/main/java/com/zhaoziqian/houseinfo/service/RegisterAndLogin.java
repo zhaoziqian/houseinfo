@@ -8,5 +8,5 @@ public interface RegisterAndLogin {
 	
 	int registerUser(Users user);
 	
-	
+	Users createUserByInfo(String cardId, String name , String password);
 }

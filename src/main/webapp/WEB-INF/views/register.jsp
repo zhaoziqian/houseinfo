@@ -72,37 +72,64 @@
 			jqueryValid();
 			// 给input表单设置焦点
 			$('input')[0].focus();
-			$('input[type=submit]').click(function(){
-					var $input = $('input');
-					$input.each(function(){
-						console.log($(this));
-						});
-				});
+// 			$('input[type=submit]').click(function(){
+// 					var $input = $('input');
+// 					$input.each(function(){
+// 						console.log($(this));
+// 						});
+// 				});
 		});
 		
 		function goback() {
-			window.history.back(-1);
+			window.location.href = "${pageContext.request.contextPath}/login";
 		}
 		$.validator.setDefaults({
 		    submitHandler: function() {
 // 		      alert("提交事件!");
+				var cardId = $('#cardId').val();
+				var username = $('#name').val();
+				var password = $('#password').val();
+				var confirmPassword = $('#password').val();
+			// 若要实现由提示框选择跳转，那么就需要ajax去注册
+			$.post(
+					"${pageContext.request.contextPath}/regdo",
+					{
+						'cardId':cardId,
+						'name':username,
+						'password':password,
+						'confirmPassword':confirmPassword
+					},
+					function(data){
+						console.log(data);
+						if (data.result == "success") {
+							swal({
+								  title: "SUCCESS",
+								  text: "注册成功是否去登陆页面",
+								  type: "info",
+								  showCancelButton: true,
+								  confirmButtonColor: "#55C7D7",
+								  confirmButtonText: "Yes , 走着 ！",
+								  cancelButtonText: "No, 就不去 。。。",
+								  closeOnConfirm: false,
+								  closeOnCancel: false
+								},
+								function(isConfirm){
+									if (isConfirm) {
+									    window.location.href = "${pageContext.request.contextPath}/login"
+									  } 
+								});
+						} else {
+							swal({
+								title: "ERROR",
+							    text: data.result,
+							    type: "warning"
+							})
+						}
+					},
+					"JSON"
+			);
 
-		      swal({
-				  title: "SUCCESS",
-				  text: "注册成功是否去登陆页面",
-				  type: "info",
-				  showCancelButton: true,
-				  confirmButtonColor: "#55C7D7",
-				  confirmButtonText: "Yes , 走着 ！",
-				  cancelButtonText: "No, 就不去 。。。",
-				  closeOnConfirm: false,
-				  closeOnCancel: false
-				},
-				function(isConfirm){
-					if (isConfirm) {
-					    window.location.href = "${pageContext.request.contextPath}/login"
-					  } 
-				});
+		      
 		      
 // 				form.submit;
 		    }
