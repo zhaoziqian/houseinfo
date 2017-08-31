@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zhaoziqian.houseinfo.pojo.Users;
 import com.zhaoziqian.houseinfo.service.RegisterAndLogin;
+import com.zhaoziqian.houseinfo.util.EmptyString;
 
 @Controller
 public class SystemController {
@@ -45,10 +46,28 @@ public class SystemController {
 	}
 	
 	@RequestMapping(value="register",method=RequestMethod.POST)
-	public String register(Users user,ModelMap map){
+	public String register(Users user,String confirmPassword,ModelMap map){
 		map.put("user", user);
 		System.out.println(user);
-		return "register";
+		System.out.println("============》确认密码："+confirmPassword);
+		Users temp = registerAndLogin.findUserById(user.getCardId());
+		Map<String, String> result = new HashMap<>(); // 用来保存返回数据的map
+		// 需要用ajax 返回数据做
+		if (EmptyString.isEmpty(user.getCardId())) {
+			return result.put("result", "未输入身份证号");
+		}
+		if (EmptyString.isEmpty(user.getName())) {
+			return result.put("result", "未输入用户名");
+		}
+		if (EmptyString.isEmpty(user.getPassword())) {
+			return result.put("result", "未输入密码");
+		}
+		if (temp != null) {
+			return result.put("result", "该用户已被注册");
+		}
+		
+//		int result = registerAndLogin.registerUser(user);
+		return result.put("result", "success");
 	}
 	
 	/**
@@ -65,8 +84,8 @@ public class SystemController {
 	public Object validCardId(@RequestParam("cardId") String cardId,HttpServletRequest request){
 		System.out.println(cardId);
 		Users user = registerAndLogin.findUserById(cardId); 
-		String id = (String) request.getAttribute("cardId");
-		System.out.println("ceshi"+id);
+//		String id = (String) request.getAttribute("cardId");
+//		System.out.println("ceshi"+id);
 		Map<String, Integer> result = new HashMap<>();
 		result.put("valid", 1);
 		if(user != null){

@@ -14,7 +14,9 @@
 		<meta charset="UTF-8">
 		<title>注册页面</title>
 		<link rel="stylesheet" type="text/css" href="<%=basePath %>resources/plugin/bootstrap-3.3.7-dist/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="<%=basePath %>resources/plugin/sweet-alert/css/sweet-alert.css" />
 		<script src="<%=basePath %>resources/js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="<%=basePath %>resources/plugin/sweet-alert/js/sweet-alert.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="<%=basePath %>resources/plugin/jquery-validation-1.16.0/dist/jquery.validate.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 
@@ -77,14 +79,32 @@
 						});
 				});
 		});
-
+		
 		function goback() {
 			window.history.back(-1);
 		}
 		$.validator.setDefaults({
 		    submitHandler: function() {
-		      alert("提交事件!");
-// 		      $('#registerForm').su
+// 		      alert("提交事件!");
+
+		      swal({
+				  title: "SUCCESS",
+				  text: "注册成功是否去登陆页面",
+				  type: "info",
+				  showCancelButton: true,
+				  confirmButtonColor: "#55C7D7",
+				  confirmButtonText: "Yes , 走着 ！",
+				  cancelButtonText: "No, 就不去 。。。",
+				  closeOnConfirm: false,
+				  closeOnCancel: false
+				},
+				function(isConfirm){
+					if (isConfirm) {
+					    window.location.href = "${pageContext.request.contextPath}/login"
+					  } 
+				});
+		      
+// 				form.submit;
 		    }
 		});
 		function jqueryValid() {
@@ -101,8 +121,8 @@
 							type: "post", //数据发送方式
 							dataType: "json", //接受数据格式   
 							data: { //要传递的数据
-// 								'cardId':$("#cardId").val()
-								'cardId':function(){
+// 								'cardId':$("#cardId").val() // 这么写就不能发送数据
+								'cardId':function(){	// 这么写就可以
 									console.log($("#cardId").val());
 									return $("#cardId").val();
 									}
