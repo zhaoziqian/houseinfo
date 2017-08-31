@@ -89,7 +89,7 @@
 				var cardId = $('#cardId').val();
 				var username = $('#name').val();
 				var password = $('#password').val();
-				var confirmPassword = $('#password').val();
+				var confirmPassword = $('#confirmPassword').val();
 			// 若要实现由提示框选择跳转，那么就需要ajax去注册
 			$.post(
 					"${pageContext.request.contextPath}/regdo",
@@ -128,9 +128,6 @@
 					},
 					"JSON"
 			);
-
-		      
-		      
 // 				form.submit;
 		    }
 		});
