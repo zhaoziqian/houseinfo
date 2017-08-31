@@ -25,6 +25,29 @@ public class SystemController {
 	@Autowired
 	private RegisterAndLogin registerAndLogin;
 
+	@RequestMapping(value="index",method=RequestMethod.GET)
+	public String index(HttpSession session){
+		Users user = (Users) session.getAttribute("user");
+		if (user == null) {
+			return "redirect:login";
+		}
+		
+		return "index";
+	}
+	
+	@RequestMapping(value="search",method=RequestMethod.POST)
+	public String search(){
+		
+		
+		return "table";
+	}
+	
+	@RequestMapping(value="logout",method=RequestMethod.GET)
+	public String logout(HttpSession session){
+		session.invalidate();
+		return "redirect:login";
+	}
+	
 	
 	
 	@RequestMapping(value="login",method=RequestMethod.GET)
