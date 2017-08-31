@@ -2,6 +2,7 @@ package com.zhaoziqian.houseinfo.controller;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,14 +17,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zhaoziqian.houseinfo.pojo.Users;
+import com.zhaoziqian.houseinfo.service.RealEstateService;
 import com.zhaoziqian.houseinfo.service.RegisterAndLogin;
 import com.zhaoziqian.houseinfo.util.EmptyString;
+import com.zhaoziqian.houseinfo.vo.HouseVo;
 
 @Controller
 public class SystemController {
 	
 	@Autowired
 	private RegisterAndLogin registerAndLogin;
+	@Autowired
+	private RealEstateService realEstateService;
 
 	@RequestMapping(value="index",method=RequestMethod.GET)
 	public String index(HttpSession session){
@@ -35,8 +40,31 @@ public class SystemController {
 		return "index";
 	}
 	
-	@RequestMapping(value="search",method=RequestMethod.POST)
-	public String search(){
+	@RequestMapping(value="search")
+	public String search(String type, 
+						 String value,
+						 Integer pageIndex,
+						 Integer pageSize,
+						 ModelMap map){
+		
+		// 当一开始是，没有查询参数，和分页信息。所以需要初始化
+		if (pageIndex == null || pageIndex <= 0) {
+			pageIndex = 1;
+		}
+		if (pageSize == null || pageSize <= 0) {
+			pageSize = 5;
+		}
+		
+		// 计算得到查询时候的起始和结束
+		int start = (pageIndex - 1) * pageSize;
+		int end = pageIndex * pageSize;
+		
+		List<HouseVo> houseVos = realEstateService.selectPages(type, value, start, pageSize);
+		map.put("houseVos", houseVos);
+		for (HouseVo houseVo : houseVos) {
+			System.out.println(houseVo);
+		}
+		
 		
 		
 		return "table";
@@ -146,30 +174,6 @@ public class SystemController {
 		 return result;
 	}
 	
-//	@RequestMapping(value="register",method=RequestMethod.POST)
-//	public String register(Users user,String confirmPassword,ModelMap map){
-//		map.put("user", user);
-//		System.out.println(user);
-//		System.out.println("============》确认密码："+confirmPassword);
-//		Users temp = registerAndLogin.findUserById(user.getCardId());
-//		Map<String, String> result = new HashMap<>(); // 用来保存返回数据的map
-//		// 需要用ajax 返回数据做
-//		if (EmptyString.isEmpty(user.getCardId())) {
-//			return result.put("result", "未输入身份证号");
-//		}
-//		if (EmptyString.isEmpty(user.getName())) {
-//			return result.put("result", "未输入用户名");
-//		}
-//		if (EmptyString.isEmpty(user.getPassword())) {
-//			return result.put("result", "未输入密码");
-//		}
-//		if (temp != null) {
-//			return result.put("result", "该用户已被注册");
-//		}
-//		
-////		int result = registerAndLogin.registerUser(user);
-//		return result.put("result", "success");
-//	}
 	/**
 	 * 
 	* @Title: validCardId 
@@ -193,6 +197,7 @@ public class SystemController {
 		}
 		return result;
 	}
+	
 	
 	
 	@RequestMapping(value="test",method=RequestMethod.GET)

@@ -12,7 +12,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>房产信息查询系统</title>
-		<link rel="stylesheet" type="text/css" href="<%=basePath %>resources/plugin/bootstrap-3.3.7-dist/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="<%=basePath %>resources/plugin/bootstrap-3.3.7-dist/css/bootstrap.css" />
 		<link rel="stylesheet" type="text/css" href="<%=basePath %>resources/plugin/sweet-alert/css/sweet-alert.css" />
 		<link rel="stylesheet" type="text/css" href="<%=basePath %>resources/plugin/Flat-UI-master/dist/css/flat-ui.css"/>
 		<script src="<%=basePath %>resources/js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
@@ -50,10 +50,15 @@
 	<script type="text/javascript">
 		$(function(){
 			$('#search').on('click',function(){
-				
+				var _type = $('#type').val();
+				var _value = $('#value').val();
+				var date = {
+						type: $('#type').val(),
+						value:$('#value').val()
+						}
 				// 清除欢迎语句
-				$('#table_content').html('');
-				$('#table_content').load("${pageContext.request.contextPath}/search");
+				//$('#table_content').html('');
+				$('#table_content').load("${pageContext.request.contextPath}/search",date);
 				
 			});
 			$('#logout').on('click',logout);

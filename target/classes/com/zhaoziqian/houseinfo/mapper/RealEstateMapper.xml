@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhaoziqian.houseinfo.mapper.RealEstateMapper">
+	
+	
+	<select id="selectPages" resultType="HouseVo">
+		
+		select 
+			r.id , 
+			r.card_id as cardId , 
+			u.name ,
+			r.project_name as projectName , 
+			r.address , 
+			r.house_type as houseType , 
+			r.area , 
+			r.build_time as buildTime 
+		from `real_estate` r inner join users u 
+		where r.card_id = u.card_id 
+		<where>
+			
+			<if test="type != null and value != null">
+				<if test="type == 'username'">
+					and u.name = #{value}
+				</if>
+				<if test="type == 'cardId'">
+					and r.carid_id = #{value}
+				</if>
+				
+			</if>
+			
+		</where>
+		limit ${start} , ${size}
+	
+	</select>
+	
+</mapper>

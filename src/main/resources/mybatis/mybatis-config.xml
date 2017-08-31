@@ -14,6 +14,7 @@
 	<!-- 配置生成别名的路径 -->
 	<typeAliases>
 		<package name="com.zhaoziqian.houseinfo.pojo" />
+		<package name="com.zhaoziqian.houseinfo.vo" />
 	</typeAliases>
 
 </configuration>
