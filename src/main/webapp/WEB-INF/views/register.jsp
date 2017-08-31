@@ -57,7 +57,7 @@
 						<div class="form-group">
 							<div class="col-sm-offset-3 col-sm-9">
 								<input type="submit" class="btn btn-success btn-sm" value="注册" />
-								<a href="" onclick="goback()" class="btn btn-primary btn-sm">返回</a>
+								<a href="javascript:;" id="goBack" class="btn btn-primary btn-sm">返回</a>
 							</div>
 						</div>
 					</form:form>
@@ -78,6 +78,7 @@
 // 						console.log($(this));
 // 						});
 // 				});
+			$('a#goBack').on('click',goback);
 		});
 		
 		function goback() {

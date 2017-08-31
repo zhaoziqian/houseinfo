@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,12 +33,45 @@ public class SystemController {
 		return "login";
 	}
 	
+	@RequestMapping(value="log",produces="application/json")
+	@ResponseBody
+	public Object loginAjax(@RequestParam("cardId") String cardId ,
+							@RequestParam("password") String password ,HttpSession session){
+		
+		System.out.println(cardId +"\t"+ password);
+		Map<String,String> result = new HashMap<>();
+		Users temp = registerAndLogin.findUserById(cardId);
+		
+		if (temp == null) {
+			result.put("result", "该账号不存在，请先注册！");
+			return result;
+		}
+		if (!password.equals(temp.getPassword())) {
+			result.put("result", "登录失败，身份证或密码错误！");
+			return result;
+		}
+		if (temp.getStatus() != 1) {
+			result.put("result", "登录失败，该账号已被冻结！");
+			return result;
+		}
+		
+		// 通过以上判断，用户可以登陆，将用户信息保存进session
+		session.setAttribute("user", temp);
+		
+		result.put("result", "success");
+		return result;
+	}
+	
 	@RequestMapping(value="login",method=RequestMethod.POST)
 	public String login(Users user ,ModelMap map){
 		// 数据回填
 		map.put("user", user);
 		return "login";
 	}
+	
+	
+	
+	
 	
 	@RequestMapping(value="register",method=RequestMethod.GET)
 	public String register(ModelMap map){
@@ -89,30 +123,30 @@ public class SystemController {
 		 return result;
 	}
 	
-	@RequestMapping(value="register",method=RequestMethod.POST)
-	public String register(Users user,String confirmPassword,ModelMap map){
-		map.put("user", user);
-		System.out.println(user);
-		System.out.println("============》确认密码："+confirmPassword);
-		Users temp = registerAndLogin.findUserById(user.getCardId());
-		Map<String, String> result = new HashMap<>(); // 用来保存返回数据的map
-		// 需要用ajax 返回数据做
-		if (EmptyString.isEmpty(user.getCardId())) {
-			return result.put("result", "未输入身份证号");
-		}
-		if (EmptyString.isEmpty(user.getName())) {
-			return result.put("result", "未输入用户名");
-		}
-		if (EmptyString.isEmpty(user.getPassword())) {
-			return result.put("result", "未输入密码");
-		}
-		if (temp != null) {
-			return result.put("result", "该用户已被注册");
-		}
-		
-//		int result = registerAndLogin.registerUser(user);
-		return result.put("result", "success");
-	}
+//	@RequestMapping(value="register",method=RequestMethod.POST)
+//	public String register(Users user,String confirmPassword,ModelMap map){
+//		map.put("user", user);
+//		System.out.println(user);
+//		System.out.println("============》确认密码："+confirmPassword);
+//		Users temp = registerAndLogin.findUserById(user.getCardId());
+//		Map<String, String> result = new HashMap<>(); // 用来保存返回数据的map
+//		// 需要用ajax 返回数据做
+//		if (EmptyString.isEmpty(user.getCardId())) {
+//			return result.put("result", "未输入身份证号");
+//		}
+//		if (EmptyString.isEmpty(user.getName())) {
+//			return result.put("result", "未输入用户名");
+//		}
+//		if (EmptyString.isEmpty(user.getPassword())) {
+//			return result.put("result", "未输入密码");
+//		}
+//		if (temp != null) {
+//			return result.put("result", "该用户已被注册");
+//		}
+//		
+////		int result = registerAndLogin.registerUser(user);
+//		return result.put("result", "success");
+//	}
 	/**
 	 * 
 	* @Title: validCardId 

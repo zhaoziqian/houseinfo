@@ -13,7 +13,9 @@
 		<meta charset="UTF-8">
 		<title>登陆页面</title>
 		<link rel="stylesheet" type="text/css" href="<%=basePath %>resources/plugin/bootstrap-3.3.7-dist/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="<%=basePath %>resources/plugin/sweet-alert/css/sweet-alert.css" />
 		<script src="<%=basePath %>resources/js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="<%=basePath %>resources/plugin/sweet-alert/js/sweet-alert.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="<%=basePath %>resources/plugin/jquery-validation-1.16.0/dist/jquery.validate.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 
@@ -40,7 +42,7 @@
 						<div class="form-group">
 							<div class="col-sm-offset-3 col-sm-9">
 								<input type="submit" class="btn btn-success btn-sm" value="登陆" />
-								<a href="" onclick="goReg()" class="btn btn-primary btn-sm">注册</a>
+								<a href="javascript:;" id="goReg" class="btn btn-primary btn-sm">注册</a>
 							</div>
 						</div>
 					</form>
@@ -55,6 +57,7 @@
 			jqueryValid();
 			// 给input表单设置焦点
 			$('input')[0].focus();
+			$('a#goReg').on('click',goReg);
 		});
 
 		function goReg() {
@@ -69,7 +72,7 @@
 				var password = $('#password').val();
 			// 若要实现由提示框选择跳转，那么就需要ajax去注册
 			$.post(
-					"${pageContext.request.contextPath}/login",
+					"${pageContext.request.contextPath}/log",
 					{
 						'cardId':cardId,
 						'password':password
