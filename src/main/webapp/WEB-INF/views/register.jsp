@@ -101,7 +101,11 @@
 							type: "post", //数据发送方式
 							dataType: "json", //接受数据格式   
 							data: { //要传递的数据
-								'cardId':$("#cardId").val()
+// 								'cardId':$("#cardId").val()
+								'cardId':function(){
+									console.log($("#cardId").val());
+									return $("#cardId").val();
+									}
 							},
 							dataFilter: function(data, type) {
 								//判断控制器返回的内容

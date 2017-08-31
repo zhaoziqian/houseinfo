@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zhaoziqian.houseinfo.pojo.Users;
@@ -61,7 +62,7 @@ public class SystemController {
 	 */
 	@RequestMapping(value="cardId.valid",produces="application/json")
 	@ResponseBody
-	public Object validCardId(String cardId,HttpServletRequest request){
+	public Object validCardId(@RequestParam("cardId") String cardId,HttpServletRequest request){
 		System.out.println(cardId);
 		Users user = registerAndLogin.findUserById(cardId); 
 		String id = (String) request.getAttribute("cardId");
