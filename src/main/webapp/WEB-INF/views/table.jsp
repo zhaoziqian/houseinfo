@@ -87,14 +87,14 @@
 
 		$(function(){
 			$('a[data-index]').on('click',function(){
-				
+				console.log($(this));
 				var date = {
 						pageIndex : $(this).data('index'),
 						pageSize : '${ pageSize }',
 						searchType:$('#type').val(),
 						searchKey : $('#value').val()
 				}
-				$('#content').load('${pageContext.request.contextPath }/search',date);
+				$('#table_content').load('${pageContext.request.contextPath }/search',date);
 			});
 		});
 	});
