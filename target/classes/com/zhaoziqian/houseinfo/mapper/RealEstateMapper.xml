@@ -3,6 +3,9 @@
 <mapper namespace="com.zhaoziqian.houseinfo.mapper.RealEstateMapper">
 	
 	
+	
+	
+	
 	<select id="selectPages" resultType="HouseVo">
 		
 		select 
@@ -32,5 +35,39 @@
 		limit ${start} , ${size}
 	
 	</select>
+	
+	<select id="getCount" resultType="int">
+		select 
+		count(*) 
+		from `real_estate` r inner join users u 
+		where r.card_id = u.card_id
+		<where>
+			
+			<if test="type != null and value != null">
+				<if test="type == 'username'">
+					and u.name = #{value}
+				</if>
+				<if test="type == 'cardId'">
+					and r.carid_id = #{value}
+				</if>
+				
+			</if>
+			
+		</where>
+	
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 </mapper>

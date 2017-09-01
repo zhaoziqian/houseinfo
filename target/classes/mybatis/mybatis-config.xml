@@ -10,7 +10,7 @@
  | environments?, databaseIdProvider?, mappers? 
  | -->
 <configuration>
-
+	
 	<!-- 配置生成别名的路径 -->
 	<typeAliases>
 		<package name="com.zhaoziqian.houseinfo.pojo" />

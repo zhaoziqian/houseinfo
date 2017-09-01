@@ -22,8 +22,7 @@ public class RealRstateServiceImpl implements RealEstateService{
 
 	@Override
 	public int getCount(String type, String value) {
-		// TODO Auto-generated method stub
-		return 0;
+		return realEstateMapper.getCount(type, value);
 	}
 
 	

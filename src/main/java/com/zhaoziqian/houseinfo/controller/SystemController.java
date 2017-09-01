@@ -47,6 +47,8 @@ public class SystemController {
 						 Integer pageSize,
 						 ModelMap map){
 		
+		System.out.println("=====>>"+type + "\t" + value + "\t" + pageIndex + "\t" + pageSize);
+		
 		// 当一开始是，没有查询参数，和分页信息。所以需要初始化
 		if (pageIndex == null || pageIndex <= 0) {
 			pageIndex = 1;
@@ -57,10 +59,24 @@ public class SystemController {
 		
 		// 计算得到查询时候的起始和结束
 		int start = (pageIndex - 1) * pageSize;
-		int end = pageIndex * pageSize;
+//		int end = pageIndex * pageSize;
 		
 		List<HouseVo> houseVos = realEstateService.selectPages(type, value, start, pageSize);
+		
+		int total = realEstateService.getCount(type, value);
+		int pageTotal = (int)Math.ceil((double)total / pageSize);
+		
+		// 存放数据
 		map.put("houseVos", houseVos);
+		map.put("type", type);
+		map.put("value", value);
+		map.put("pageIndex", pageIndex);
+		map.put("pageSize", pageSize);
+		map.put("total", total);
+		map.put("pageTotal",  pageTotal );
+		map.put("prev", pageIndex > 1);
+		map.put("next", pageIndex < pageTotal);
+		
 		for (HouseVo houseVo : houseVos) {
 			System.out.println(houseVo);
 		}

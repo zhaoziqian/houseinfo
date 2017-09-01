@@ -55,9 +55,7 @@
 				var date = {
 						type: $('#type').val(),
 						value:$('#value').val()
-						}
-				// 清除欢迎语句
-				//$('#table_content').html('');
+						};
 				$('#table_content').load("${pageContext.request.contextPath}/search",date);
 				
 			});
