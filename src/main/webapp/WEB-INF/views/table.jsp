@@ -18,8 +18,8 @@
 				<p class="form-control-static">查询类型：</p>
 			</div>
 			<div class="form-group col-md-2">
-				<label for="type" class="sr-only">类型</label> <select name="type"
-					class="form-control">
+				<label for="type" class="sr-only">类型</label> 
+				<select name="type" id="type" class="form-control">
 					<option value="username" <c:if test="${type eq 'username' }">selected</c:if> >用户名</option>
 					<option value="cardId" <c:if test="${type eq 'cardId' }">selected</c:if> >身份证</option>
 				</select>
@@ -75,6 +75,7 @@
 				function() {
 					var _type = $('#type').val();
 					var _value = $('#value').val();
+					console.log(_type + "\t" + _value);
 					var date = {
 						pageSize : '${pageSize }',
 						type : $('#type').val(),

@@ -18,32 +18,29 @@
 			r.area , 
 			r.build_time as buildTime 
 		from `real_estate` r inner join users u 
-		where r.card_id = u.card_id 
+		on r.card_id = u.card_id 
 		<where>
-			
-			<if test="type != null and value != null">
+			<if test="value != null and value != ''">
 				<if test="type == 'username'">
 					and u.name = #{value}
 				</if>
 				<if test="type == 'cardId'">
-					and r.carid_id = #{value}
+					and r.card_id = #{value}
 				</if>
 				
 			</if>
-			
 		</where>
 		limit ${start} , ${size}
-	
 	</select>
 	
 	<select id="getCount" resultType="int">
 		select 
 		count(*) 
 		from `real_estate` r inner join users u 
-		where r.card_id = u.card_id
+		on r.card_id = u.card_id
 		<where>
 			
-			<if test="type != null and value != null">
+			<if test="value != null and value != ''">
 				<if test="type == 'username'">
 					and u.name = #{value}
 				</if>
